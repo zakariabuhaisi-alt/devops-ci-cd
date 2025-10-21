@@ -22,25 +22,24 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # Install Snyk CLI manually to avoid any missing dependency issues
       - name: Install Snyk CLI
         run: npm install -g snyk
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # Run dependency scan
+      # Dependency vulnerability scan
       - name: Run Snyk Dependency Test
         run: snyk test --json > snyk-deps.json || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # Run code analysis (optional)
+      # Code security scan (SARIF output)
       - name: Run Snyk Code Test
         run: snyk code test --sarif-file-output=snyk-code.sarif || true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
-      # Upload results only if file exists and is not empty
+      # Upload SARIF results to GitHub Security tab (only if file exists)
       - name: Upload SARIF to GitHub Security
         if: ${{ hashFiles('snyk-code.sarif') != '' }}
         uses: github/codeql-action/upload-sarif@v3
