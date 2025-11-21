@@ -17,7 +17,7 @@
     "validate": "npm run typecheck && npm run test && npm run build"
   },
   "dependencies": {
-    "astro": "^5.14.4"
+    "astro": "^5.15.9"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
